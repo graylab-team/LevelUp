@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import CodeEditor from "./CodeEditor";
 import DiffEditorComponent from "./DiffEditor";
 import SubmitButton from "./SubmitButton";
@@ -11,7 +10,7 @@ import { CODE_EXERCISES } from "@/constants/solidity/code-exercises";
 
 import { Box, Button, Tooltip } from "@mui/material";
 
-const IdeComponent = ({ exercise, setCompletedExercise }) => {
+const IdeComponent = ({ exercise, setCompletedExercise, challengeName }) => {
   const [code, setCode] = useState("");
   const [tries, setTries] = useState<number>(0);
   const [solutionViewer, setSolutionViewer] = useState<boolean>(false);
@@ -20,16 +19,10 @@ const IdeComponent = ({ exercise, setCompletedExercise }) => {
     useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const { slug } = useParams();
-  const slugParam = slug as string;
-
   let codeSolution, codeTemplate;
-  if (
-    CODE_SOLUTIONS[slugParam.toLowerCase()] &&
-    CODE_EXERCISES[slugParam.toLowerCase()]
-  ) {
-    codeSolution = CODE_SOLUTIONS[slugParam.toLowerCase()][exercise];
-    codeTemplate = CODE_EXERCISES[slugParam.toLowerCase()][exercise];
+  if (CODE_SOLUTIONS[challengeName] && CODE_EXERCISES[challengeName]) {
+    codeSolution = CODE_SOLUTIONS[challengeName][exercise];
+    codeTemplate = CODE_EXERCISES[challengeName][exercise];
   }
 
   const submissionHandler = (isCorrect: boolean) => {
@@ -37,7 +30,7 @@ const IdeComponent = ({ exercise, setCompletedExercise }) => {
     if (isCorrect) {
       setCompletedExercise((prevCompletedExercise) => {
         const currentExerciseNumber = parseInt(
-          exercise.replace("exercise", "")
+          exercise.replace("exercise", ""),
         );
         console.log("current exercise:", currentExerciseNumber);
         if (currentExerciseNumber > prevCompletedExercise) {
@@ -81,15 +74,8 @@ const IdeComponent = ({ exercise, setCompletedExercise }) => {
       />
       {showSolutionButton ? (
         <Box position="relative">
-          <DiffEditorComponent
-            code={code}
-            codeSolution={codeSolution}
-          />
-          <Box
-            position="absolute"
-            left={4}
-            bottom={4}
-          >
+          <DiffEditorComponent code={code} codeSolution={codeSolution} />
+          <Box position="absolute" left={4} bottom={4}>
             <Tooltip title="Back to code">
               <Button
                 onClick={() => handleSolutionButtonClick(false)}
@@ -116,11 +102,7 @@ const IdeComponent = ({ exercise, setCompletedExercise }) => {
               submissionHandler(isCorrect);
             }}
           />
-          <Box
-            position="absolute"
-            left={4}
-            bottom={4}
-          >
+          <Box position="absolute" left={4} bottom={4}>
             {solutionViewer && (
               <Tooltip title="Tip: You can only view this solution once">
                 <Button
@@ -137,11 +119,7 @@ const IdeComponent = ({ exercise, setCompletedExercise }) => {
               </Tooltip>
             )}
           </Box>
-          <Box
-            position="absolute"
-            right={4}
-            bottom={4}
-          >
+          <Box position="absolute" right={4} bottom={4}>
             <SubmitButton
               code={code}
               codeSolution={codeSolution}

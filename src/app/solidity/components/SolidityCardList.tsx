@@ -1,7 +1,8 @@
 import { Box } from "@mui/material";
+import markdownData from "@/data/solidity/markdownData.json";
 import Link from "next/link";
 
-const SolidityCardList = ({ content }) => {
+const SolidityCard = ({ content }) => {
   return (
     <Link
       href={`/solidity/${content.id}`}
@@ -17,16 +18,27 @@ const SolidityCardList = ({ content }) => {
             {content.summary}
           </div>
         </Box>
-        {/* TODO: Update labels in future. Temporarily removed for MVP */}
-        {/* <LabelContainer>
-        {content.labels?.map((label, index) => (
-          <Label key={index}>{label}</Label>
-        ))}
-        {content.level ? <Label>Level {content.level}</Label> : null}
-      </LabelContainer> */}
       </div>
     </Link>
   );
 };
 
+const SolidityCardList = async () => {
+  return (
+    <div className="mx-auto my-24 box-border w-full">
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <div
+          className="grid gap-[2.4rem]"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(30rem, 1fr))",
+          }}
+        >
+          {markdownData.map((item) => (
+            <SolidityCard content={item} key={item.index} />
+          ))}
+        </div>
+      </Box>
+    </div>
+  );
+};
 export default SolidityCardList;

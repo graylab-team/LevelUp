@@ -3,7 +3,7 @@ import React from "react";
 import SectionHeader from "@/components/SectionHeader";
 import Wrapper from "@/components/Wrapper";
 
-import List from "./List";
+import { SolidityCardList } from "./components/";
 
 const SolidityPage = () => {
   return (
@@ -14,7 +14,7 @@ const SolidityPage = () => {
         imgClass="self-end"
       />
       <Wrapper>
-        <List />
+        <SolidityCardList />
       </Wrapper>
     </div>
   );

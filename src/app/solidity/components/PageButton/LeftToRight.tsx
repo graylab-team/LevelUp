@@ -12,7 +12,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-import { NavigateBeforeRounded } from "@mui/icons-material";
+import { NavigateNextRounded } from "@mui/icons-material";
 import useCheckViewport from "@/hooks/useCheckViewport";
 
 interface ScrollButtonProps extends ButtonProps {
@@ -55,6 +55,7 @@ const cColor = (color, theme) => {
 const useStyles = makeStyles<any>()((theme, { width, color, whiteButton }) => ({
   wrapper: {
     position: "relative",
+    marginLeft: "auto",
     height: "5.4rem",
     overflow: "hidden",
     borderRadius: "1rem",
@@ -82,7 +83,7 @@ const useStyles = makeStyles<any>()((theme, { width, color, whiteButton }) => ({
     fontWeight: 600,
     height: "100%",
     width: "100%",
-    paddingRight: "5.4rem",
+    paddingLeft: "5.4rem",
     borderWidth: 1,
     borderStyle: "solid",
     borderColor: gColor(color, theme),
@@ -111,7 +112,6 @@ const useStyles = makeStyles<any>()((theme, { width, color, whiteButton }) => ({
     width: "5.4rem",
     height: "100%",
     position: "absolute",
-    right: 0,
     backgroundColor: gColor(color, theme),
     borderRadius: "1rem",
     [theme.breakpoints.down("sm")]: {
@@ -129,7 +129,6 @@ const useStyles = makeStyles<any>()((theme, { width, color, whiteButton }) => ({
     width: "5.4rem",
     height: "100%",
     position: "absolute",
-    right: 0,
     zIndex: 1,
     color: `${cColor(color, theme)} !important`,
     [theme.breakpoints.down("sm")]: {
@@ -155,7 +154,7 @@ const maskMobile = {
     width: "100%",
   },
 };
-const RightToLeftButton = (props: ScrollButtonProps) => {
+const LeftToRightButton = (props: ScrollButtonProps) => {
   const {
     width,
     color,
@@ -205,26 +204,22 @@ const RightToLeftButton = (props: ScrollButtonProps) => {
         classes.wrapper,
         innerDisabled && classes.wrapperDisabled,
         loading && classes.wrapperLoading,
-        gloomy && classes.wrapperGloomy
+        gloomy && classes.wrapperGloomy,
       )}
       onHoverStart={handleHover}
       onHoverEnd={handleHover}
       animate={isHover ? "expanding" : "normal"}
     >
       {!loading && (
-        <IconButton
-          classes={{ root: classes.icon }}
-          component="span"
-          disabled
-        >
-          <NavigateBeforeRounded inheritViewBox />
+        <IconButton classes={{ root: classes.icon }} component="span" disabled>
+          <NavigateNextRounded inheritViewBox />
         </IconButton>
       )}
       <motion.div
         className={cx(
           classes.mask,
           loading && classes.maskLoading,
-          innerDisabled && classes.maskDisabled
+          innerDisabled && classes.maskDisabled,
         )}
         variants={isMobile ? maskMobile : maskDesktop}
       ></motion.div>
@@ -234,7 +229,7 @@ const RightToLeftButton = (props: ScrollButtonProps) => {
             classes.button,
             isHover && !gloomy && !innerDisabled && classes.active,
             loading && classes.buttonLoading,
-            innerDisabled && classes.buttonDisabled
+            innerDisabled && classes.buttonDisabled,
           ),
         }}
         disabled={innerDisabled || gloomy || loading}
@@ -254,4 +249,4 @@ const RightToLeftButton = (props: ScrollButtonProps) => {
   );
 };
 
-export default RightToLeftButton;
+export default LeftToRightButton;
